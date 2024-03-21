@@ -1,0 +1,60 @@
+@extends('layouts.backend.main')
+@section('content')
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>Project</h2>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-0 ">
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col">
+                        <h5 class="card-title fw-semibold mb-4 d-inline">Project</h5>
+                    </div>
+                    <div class="col d-flex justify-content-end">
+                        <a href="{{ route('project.create') }}" class="btn  btn-primary"><i class="bi bi-plus"></i>
+                            Tambah</a>
+                    </div>
+                </div>
+                <table id="example" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Foto</th>
+                            <th scope="col">Nama Project</th>
+                            <th scope="col">Keterangan</th>
+                            <th scope="col" width="100px">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($data as $key => $item)
+                            <tr>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <td><img src="{{ url('images/foto/' . $item->foto) }}" class="img-fluid"
+                                        style="width: 100px"></td>
+                                <td>{{ $item->nama_projek }}</td>
+                                <td>{{ Str::limit($item->keterangan, 100, '...') }}</td>
+
+                                <td>
+                                    <a href="{{ route('project.edit', $item->id) }}" class="btn btn-sm btn-success">Edit</a>
+
+                                    <form action="{{ route('project.destroy', $item->id) }}" method="POST"
+                                        onclick="return confirm('Yakin Untuk Mengapus Data ?')" class="d-inline">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                    </form>
+
+                                </td>
+
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+@endsection
